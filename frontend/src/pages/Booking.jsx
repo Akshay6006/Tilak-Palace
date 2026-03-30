@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 
 function Booking() {
   const { language } = useLanguage();
-
   const location = useLocation();
+
   const params = new URLSearchParams(location.search);
   const selectedRoom = params.get("room");
 
@@ -24,6 +24,7 @@ function Booking() {
 
   const [loading, setLoading] = useState(false);
 
+  // ✅ Auto select room
   useEffect(() => {
     if (selectedRoom) {
       setForm((prev) => ({
@@ -33,6 +34,7 @@ function Booking() {
     }
   }, [selectedRoom]);
 
+  // ✅ Calculate days & price
   useEffect(() => {
     if (form.checkIn && form.checkOut) {
       const start = new Date(form.checkIn);
@@ -52,14 +54,24 @@ function Booking() {
     }
   }, [form.checkIn, form.checkOut, form.roomType]);
 
+  // ✅ Input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  // 🔥 FILE UPLOAD
+  // ✅ File upload (SAFE)
   const handleFile = (e) => {
     const file = e.target.files[0];
+
+    if (!file) return;
+
+    // ❌ Prevent large files
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("File too large (max 2MB) ❌");
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -69,21 +81,44 @@ function Booking() {
       }));
     };
 
-    if (file) reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
+  // ✅ Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 🔥 VALIDATION
+    if (!form.name || !form.phone || !form.roomType) {
+      toast.error("Fill all fields ❌");
+      return;
+    }
+
+    if (!form.paymentScreenshot) {
+      toast.error("Upload payment screenshot ❌");
+      return;
+    }
+
+    if (form.days <= 0) {
+      toast.error("Invalid dates ❌");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const res = await fetch("https://tilak-palace-backend.onrender.com/book-room", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        "https://tilak-palace-backend.onrender.com/book-room",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
+
+      const data = await res.json();
 
       if (res.ok) {
         toast.success("Booking Successful 🎉");
@@ -99,9 +134,11 @@ function Booking() {
           paymentScreenshot: "",
         });
       } else {
-        toast.error("Booking Failed ❌");
+        console.log(data);
+        toast.error(data.message || "Booking Failed ❌");
       }
     } catch (err) {
+      console.error(err);
       toast.error("Server Error ❌");
     }
 
@@ -113,7 +150,7 @@ function Booking() {
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 py-16 px-6 md:px-20 text-white">
 
         <h1 className="text-3xl font-bold text-center mb-10">
-          Book Your Stay
+          {language === "en" ? "Book Your Stay" : "अपनी बुकिंग करें"}
         </h1>
 
         <div className="grid md:grid-cols-2 gap-10">
@@ -123,13 +160,14 @@ function Booking() {
             onSubmit={handleSubmit}
             className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg"
           >
+
             <input
               type="text"
               name="name"
               placeholder="Your Name"
               value={form.name}
               onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded text-black"
+              className="w-full p-3 mb-4 rounded text-black"
               required
             />
 
@@ -139,7 +177,7 @@ function Booking() {
               placeholder="Phone Number"
               value={form.phone}
               onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded text-black"
+              className="w-full p-3 mb-4 rounded text-black"
               required
             />
 
@@ -147,7 +185,7 @@ function Booking() {
               name="roomType"
               value={form.roomType}
               onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded text-black"
+              className="w-full p-3 mb-4 rounded text-black"
               required
             >
               <option value="">Select Room</option>
@@ -162,7 +200,7 @@ function Booking() {
                 name="checkIn"
                 value={form.checkIn}
                 onChange={handleChange}
-                className="w-full p-3 border rounded text-black"
+                className="w-full p-3 rounded text-black"
                 required
               />
 
@@ -171,12 +209,12 @@ function Booking() {
                 name="checkOut"
                 value={form.checkOut}
                 onChange={handleChange}
-                className="w-full p-3 border rounded text-black"
+                className="w-full p-3 rounded text-black"
                 required
               />
             </div>
 
-            {/* 🔥 QR SECTION */}
+            {/* QR */}
             <div className="bg-black p-4 rounded mb-4 text-center">
               <p className="mb-2">Scan & Pay</p>
               <img
@@ -186,9 +224,10 @@ function Booking() {
               <p className="text-sm mt-2">UPI ID: yourupi@upi</p>
             </div>
 
-            {/* 🔥 FILE UPLOAD */}
+            {/* FILE */}
             <input
               type="file"
+              accept="image/*"
               onChange={handleFile}
               className="w-full mb-4"
               required
@@ -198,7 +237,11 @@ function Booking() {
               type="submit"
               className="w-full bg-yellow-400 text-black py-3 rounded font-semibold"
             >
-              {loading ? "Processing..." : "Confirm Booking"}
+              {loading
+                ? "Processing..."
+                : language === "en"
+                ? "Confirm Booking"
+                : "बुकिंग करें"}
             </button>
           </form>
 

@@ -1,71 +1,56 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../data/translations";
+import { useState, useEffect } from "react";
 import logo from "../assets/21.png";
 
-function Navbar({ language, setLanguage }) {
-  const navigate = useNavigate();
-  const location = useLocation();
+function Navbar() {
+  const { language, toggleLanguage } = useLanguage();
+  const t = translations[language];
 
-  const handleScroll = (id) => {
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-black/60 text-white">
+    <div
+      className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 transition-all duration-300 ${
+        scrolled
+          ? "bg-black shadow-lg"
+          : "bg-black/30 backdrop-blur-md"
+      }`}
+    >
+      {/* LOGO */}
+      <Link to="/" className="flex items-center gap-2">
+        <img src={logo} className="w-10 h-10 object-contain" />
+        <span className="text-white font-bold text-lg">
+          Tilak Palace
+        </span>
+      </Link>
 
-      <div className="flex justify-between items-center px-5 md:px-5 md:px-10 py-4">
-
-        {/* LOGO */}
-        <div
-          onClick={() => navigate("/")}
-          className="flex items-center gap-3 cursor-pointer"
-        >
-          <img src={logo} alt="logo" className="h-10 w-10 rounded-full" />
-
-          <h2 className="text-lg md:text-xl font-bold text-yellow-400">
-            {language === "en" ? "Tilak Palace" : "तिलक पैलेस"}
-          </h2>
-        </div>
-
-        {/* MENU */}
-        <div className="hidden md:flex gap-8 cursor-pointer text-sm md:text-base">
-
-          <span onClick={() => handleScroll("home")} className="hover:text-yellow-400">
-            {language === "en" ? "Home" : "होम"}
-          </span>
-
-          <span onClick={() => handleScroll("rooms")} className="hover:text-yellow-400">
-            {language === "en" ? "Rooms" : "कमरे"}
-          </span>
-
-          <span onClick={() => handleScroll("facilities")} className="hover:text-yellow-400">
-            {language === "en" ? "Facilities" : "सुविधाएं"}
-          </span>
-
-          <span onClick={() => handleScroll("banquet")} className="hover:text-yellow-400">
-            {language === "en" ? "Banquet" : "बैंक्वेट"}
-          </span>
-
-          <span onClick={() => handleScroll("contact")} className="hover:text-yellow-400">
-            {language === "en" ? "Contact" : "संपर्क"}
-          </span>
-        </div>
-
-        {/* LANGUAGE BUTTON */}
-        <button
-          onClick={() => setLanguage(language === "en" ? "hi" : "en")}
-          className="bg-yellow-400 text-black px-3 py-1 rounded text-sm"
-        >
-          {language === "en" ? "हिंदी" : "English"}
-        </button>
-
+      {/* MENU */}
+      <div className="hidden md:flex gap-6 text-white font-medium">
+        <Link to="/" className="hover:text-yellow-400">Home</Link>
+        <Link to="/rooms" className="hover:text-yellow-400">Rooms</Link>
+        <Link to="/booking" className="hover:text-yellow-400">Booking</Link>
+        <Link to="/gallery" className="hover:text-yellow-400">Gallery</Link>
+        <Link to="/contact" className="hover:text-yellow-400">Contact</Link>
       </div>
+
+      {/* LANGUAGE BUTTON */}
+      <button
+        onClick={toggleLanguage}
+        className="bg-yellow-400 px-3 py-1 rounded font-semibold hover:scale-105 transition"
+      >
+        {language === "en" ? "हिंदी" : "EN"}
+      </button>
     </div>
   );
 }

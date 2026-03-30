@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { useLocation } from "react-router-dom";
+import PageWrapper from "../components/PageWrapper";
+import toast from "react-hot-toast";
 
-function Booking({ language }) {
+function Booking() {
+  const { language } = useLanguage();
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const selectedRoom = params.get("room");
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -9,204 +19,210 @@ function Booking({ language }) {
     checkOut: "",
     days: 0,
     totalPrice: 0,
-    paymentScreenshot: ""
+    paymentScreenshot: "",
   });
 
-  const [displayText, setDisplayText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const fullText =
-    language === "en"
-      ? "Luxury Stay • Banquet • Restaurant • Gym • Parking"
-      : "लक्ज़री होटल • बैंक्वेट • रेस्टोरेंट • जिम • पार्किंग";
-
-  // ✅ FIXED Typing Animation (no undefined bug)
- useEffect(() => {
-  let index = 0;
-
-  const interval = setInterval(() => {
-    index++;
-
-    if (index <= fullText.length) {
-      setDisplayText(fullText.slice(0, index));
-    } else {
-      clearInterval(interval);
+  useEffect(() => {
+    if (selectedRoom) {
+      setForm((prev) => ({
+        ...prev,
+        roomType: selectedRoom,
+      }));
     }
-  }, 40);
+  }, [selectedRoom]);
 
-  return () => clearInterval(interval);
-}, [language]);
+  useEffect(() => {
+    if (form.checkIn && form.checkOut) {
+      const start = new Date(form.checkIn);
+      const end = new Date(form.checkOut);
+      const diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
 
-  const roomPrices = {
-    Single: 800,
-    Deluxe: 1500,
-    Suite: 2500
-  };
+      let price = 0;
+      if (form.roomType.includes("Single")) price = 800;
+      if (form.roomType.includes("Deluxe")) price = 1500;
+      if (form.roomType.includes("Suite")) price = 2500;
+
+      setForm((prev) => ({
+        ...prev,
+        days: diff > 0 ? diff : 0,
+        totalPrice: diff > 0 ? diff * price : 0,
+      }));
+    }
+  }, [form.checkIn, form.checkOut, form.roomType]);
 
   const handleChange = (e) => {
-    const updatedForm = {
-      ...form,
-      [e.target.name]: e.target.value
-    };
-
-    // ✅ Calculate days + price
-    if (updatedForm.checkIn && updatedForm.checkOut && updatedForm.roomType) {
-      const checkIn = new Date(updatedForm.checkIn);
-      const checkOut = new Date(updatedForm.checkOut);
-
-      const diffTime = checkOut - checkIn;
-      const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      const pricePerDay = roomPrices[updatedForm.roomType] || 0;
-      const total = days * pricePerDay;
-
-      updatedForm.days = days > 0 ? days : 0;
-      updatedForm.totalPrice = total > 0 ? total : 0;
-    }
-
-    setForm(updatedForm);
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
+  // 🔥 FILE UPLOAD
   const handleFile = (e) => {
-    setForm({
-      ...form,
-      paymentScreenshot: e.target.files[0]?.name || ""
-    });
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setForm((prev) => ({
+        ...prev,
+        paymentScreenshot: reader.result,
+      }));
+    };
+
+    if (file) reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    await fetch("http://localhost:5000/book-room", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    });
+    try {
+      const res = await fetch("https://tilak-palace-backend.onrender.com/book-room", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
-    alert(
-      language === "en"
-        ? "Room Booked Successfully!"
-        : "कमरा सफलतापूर्वक बुक हुआ!"
-    );
+      if (res.ok) {
+        toast.success("Booking Successful 🎉");
+
+        setForm({
+          name: "",
+          phone: "",
+          roomType: "",
+          checkIn: "",
+          checkOut: "",
+          days: 0,
+          totalPrice: 0,
+          paymentScreenshot: "",
+        });
+      } else {
+        toast.error("Booking Failed ❌");
+      }
+    } catch (err) {
+      toast.error("Server Error ❌");
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-between px-5 md:px-10 bg-cover bg-center relative"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1566073771259-6a8506099945')"
-      }}
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/70"></div>
+    <PageWrapper>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 py-16 px-6 md:px-20 text-white">
 
-      {/* LEFT SIDE TEXT */}
-      <div className="relative text-white max-w-xl">
-        <h1 className="text-5xl font-bold mb-6">
-          {language === "en"
-            ? "Welcome to Tilak Palace"
-            : "तिलक पैलेस में आपका स्वागत है"}
+        <h1 className="text-3xl font-bold text-center mb-10">
+          Book Your Stay
         </h1>
 
-        <p className="text-xl text-gray-300 h-10">
-          {displayText}
-        </p>
-      </div>
+        <div className="grid md:grid-cols-2 gap-10">
 
-      {/* RIGHT SIDE FORM */}
-      <div className="relative bg-white/90 backdrop-blur-md p-8 rounded-xl shadow-2xl w-full max-w-md">
-
-        <h2 className="text-3xl font-bold text-center mb-6">
-          {language === "en" ? "Book Your Room" : "कमरा बुक करें"}
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-
-          <input
-            name="name"
-            placeholder={language === "en" ? "Name" : "नाम"}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-
-          <input
-            name="phone"
-            placeholder={language === "en" ? "Phone" : "मोबाइल नंबर"}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-
-          <select
-            name="roomType"
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
+          {/* FORM */}
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg"
           >
-            <option value="">
-              {language === "en" ? "Select Room" : "कमरा चुनें"}
-            </option>
-            <option value="Single">Single</option>
-            <option value="Deluxe">Deluxe</option>
-            <option value="Suite">Suite</option>
-          </select>
-
-          <div>
-            <label>
-              {language === "en" ? "Check-in (1 PM)" : "चेक-इन (1 बजे)"}
-            </label>
             <input
-              type="date"
-              name="checkIn"
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={form.name}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 mb-4 border rounded text-black"
               required
             />
-          </div>
 
-          <div>
-            <label>
-              {language === "en" ? "Check-out (11 AM)" : "चेक-आउट (11 बजे)"}
-            </label>
             <input
-              type="date"
-              name="checkOut"
+              type="text"
+              name="phone"
+              placeholder="Phone Number"
+              value={form.phone}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 mb-4 border rounded text-black"
               required
             />
+
+            <select
+              name="roomType"
+              value={form.roomType}
+              onChange={handleChange}
+              className="w-full p-3 mb-4 border rounded text-black"
+              required
+            >
+              <option value="">Select Room</option>
+              <option>Single Room</option>
+              <option>Deluxe Room</option>
+              <option>Suite Room</option>
+            </select>
+
+            <div className="flex gap-4 mb-4">
+              <input
+                type="date"
+                name="checkIn"
+                value={form.checkIn}
+                onChange={handleChange}
+                className="w-full p-3 border rounded text-black"
+                required
+              />
+
+              <input
+                type="date"
+                name="checkOut"
+                value={form.checkOut}
+                onChange={handleChange}
+                className="w-full p-3 border rounded text-black"
+                required
+              />
+            </div>
+
+            {/* 🔥 QR SECTION */}
+            <div className="bg-black p-4 rounded mb-4 text-center">
+              <p className="mb-2">Scan & Pay</p>
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=yourupi@upi"
+                className="mx-auto"
+              />
+              <p className="text-sm mt-2">UPI ID: yourupi@upi</p>
+            </div>
+
+            {/* 🔥 FILE UPLOAD */}
+            <input
+              type="file"
+              onChange={handleFile}
+              className="w-full mb-4"
+              required
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-yellow-400 text-black py-3 rounded font-semibold"
+            >
+              {loading ? "Processing..." : "Confirm Booking"}
+            </button>
+          </form>
+
+          {/* SUMMARY */}
+          <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Booking Summary</h2>
+
+            <p>Room: {form.roomType || "-"}</p>
+            <p>Days: {form.days}</p>
+            <p>Total: ₹{form.totalPrice}</p>
+
+            <hr className="my-4" />
+
+            <h3 className="font-bold mb-2">Why Book With Us?</h3>
+            <ul className="space-y-2 text-sm">
+              <li>✔ Best price guarantee</li>
+              <li>✔ Secure payment</li>
+              <li>✔ 24/7 support</li>
+            </ul>
           </div>
 
-          {/* PRICE */}
-          <div className="bg-gray-100 p-3 rounded">
-            <p>
-              {language === "en" ? "Days" : "दिन"}: {form.days}
-            </p>
-            <p>
-              {language === "en" ? "Total Price" : "कुल कीमत"}: ₹{form.totalPrice}
-            </p>
-          </div>
-
-          {/* PAYMENT */}
-          <div className="bg-yellow-100 p-3 rounded text-center">
-            <p className="font-semibold">
-              {language === "en" ? "Pay via UPI" : "UPI से भुगतान करें"}
-            </p>
-            <p><b>tilakpalace@upi</b></p>
-          </div>
-
-          <input type="file" onChange={handleFile} />
-
-          <button className="w-full bg-yellow-400 py-2 rounded font-semibold hover:bg-yellow-300">
-            {language === "en" ? "Confirm Booking" : "बुकिंग करें"}
-          </button>
-
-        </form>
+        </div>
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 

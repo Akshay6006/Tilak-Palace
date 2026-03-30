@@ -1,68 +1,78 @@
-function Footer({ language }) {
+import { useLanguage } from "../context/LanguageContext";
+
+function Footer() {
+  const { language } = useLanguage();
+
   return (
-    <div id="contact" className="bg-black text-white pt-16 pb-10 px-5 md:px-10">
+    <footer className="bg-black text-white px-6 md:px-20 py-12">
+      
+      {/* TOP SECTION */}
+      <div className="grid md:grid-cols-4 gap-8">
 
-      <div className="grid md:grid-cols-4 gap-10 text-left">
-
-        {/* HOTEL INFO */}
+        {/* BRAND */}
         <div>
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">
-            Tilak Palace
-          </h2>
+          <h2 className="text-xl font-bold mb-4">Tilak Palace</h2>
           <p className="text-gray-400">
             {language === "en"
-              ? "Luxury hotel, banquet & restaurant in Muzaffarpur."
-              : "मुजफ्फरपुर में लक्ज़री होटल, बैंक्वेट और रेस्टोरेंट।"}
+              ? "Luxury stay and premium hospitality in Muzaffarpur."
+              : "मुज़फ्फरपुर में लक्ज़री होटल और प्रीमियम सुविधाएं।"}
           </p>
         </div>
 
-        {/* QUICK LINKS */}
+        {/* EXPLORE */}
         <div>
-          <h3 className="text-xl mb-4">
-            {language === "en" ? "Quick Links" : "त्वरित लिंक"}
+          <h3 className="font-bold mb-3">
+            {language === "en" ? "Explore" : "खोजें"}
           </h3>
-
           <ul className="space-y-2 text-gray-400">
             <li>Home</li>
             <li>Rooms</li>
-            <li>Restaurant</li>
-            <li>Banquet</li>
+            <li>Gallery</li>
+            <li>Booking</li>
           </ul>
         </div>
 
         {/* SERVICES */}
         <div>
-          <h3 className="text-xl mb-4">
+          <h3 className="font-bold mb-3">
             {language === "en" ? "Services" : "सेवाएं"}
           </h3>
-
           <ul className="space-y-2 text-gray-400">
-            <li>Room Booking</li>
-            <li>Event Booking</li>
-            <li>Food Ordering</li>
-            <li>Gym Access</li>
+            <li>Restaurant</li>
+            <li>Banquet Hall</li>
+            <li>Parking</li>
+            <li>Room Service</li>
           </ul>
         </div>
 
         {/* CONTACT */}
         <div>
-          <h3 className="text-xl mb-4">
-            {language === "en" ? "Contact Us" : "संपर्क करें"}
+          <h3 className="font-bold mb-3">
+            {language === "en" ? "Contact" : "संपर्क"}
           </h3>
-
-          <p className="text-gray-400">Muzaffarpur, Bihar</p>
-          <p className="text-gray-400">+91 9876543210</p>
-          <p className="text-gray-400">tilakpalace@gmail.com</p>
+          <p className="text-gray-400">📞 +91 9876543210</p>
+          <p className="text-gray-400">📧 tilakpalace@gmail.com</p>
+          <p className="text-gray-400">
+            {language === "en"
+              ? "Muzaffarpur, Bihar"
+              : "मुज़फ्फरपुर, बिहार"}
+          </p>
         </div>
 
       </div>
 
-      {/* BOTTOM */}
-      <div className="text-center text-gray-500 mt-10 border-t border-gray-700 pt-5">
-        © 2026 Tilak Palace. {language === "en" ? "All Rights Reserved" : "सर्वाधिकार सुरक्षित"}
+      {/* SOCIAL */}
+      <div className="flex justify-center gap-6 mt-10 text-gray-400">
+        <span className="hover:text-white cursor-pointer">Instagram</span>
+        <span className="hover:text-white cursor-pointer">Facebook</span>
+        <span className="hover:text-white cursor-pointer">YouTube</span>
       </div>
 
-    </div>
+      {/* BOTTOM */}
+      <div className="text-center mt-8 text-gray-500 text-sm">
+        © 2026 Tilak Palace. All rights reserved.
+      </div>
+    </footer>
   );
 }
 

@@ -44,10 +44,10 @@ function Gallery() {
       src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622",
       category: "Events",
     },
-    {
-      src: "https://images.unsplash.com/photo-1529636798458-92182e662485",
-      category: "Events",
-    },
+    // {
+    //   src: "https://images.unsplash.com/photo-1529636798458-92182e662485",
+    //   category: "Events",
+    // },
   ];
 
   const filteredImages =

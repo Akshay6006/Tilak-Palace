@@ -61,28 +61,28 @@ function Booking() {
   };
 
   // ✅ File upload (SAFE)
-  const handleFile = (e) => {
-    const file = e.target.files[0];
+const handleFile = (e) => {
+  const file = e.target.files[0];
 
-    if (!file) return;
+  if (!file) return;
 
-    // ❌ Prevent large files
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error("File too large (max 2MB) ❌");
-      return;
-    }
+  // ❌ limit to 1MB (IMPORTANT)
+  if (file.size > 1 * 1024 * 1024) {
+    toast.error("Image too large (max 1MB) ❌");
+    return;
+  }
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setForm((prev) => ({
-        ...prev,
-        paymentScreenshot: reader.result,
-      }));
-    };
-
-    reader.readAsDataURL(file);
+  reader.onloadend = () => {
+    setForm((prev) => ({
+      ...prev,
+      paymentScreenshot: reader.result,
+    }));
   };
+
+  reader.readAsDataURL(file);
+};
 
   // ✅ Submit
   const handleSubmit = async (e) => {

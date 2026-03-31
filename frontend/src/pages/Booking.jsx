@@ -108,7 +108,7 @@ const handleFile = (e) => {
 
     try {
       const res = await fetch(
-        "https://tilak-palace-backend.onrender.com/book-room",
+        "https://tilak-palace.onrender.com/book-room",
         {
           method: "POST",
           headers: {

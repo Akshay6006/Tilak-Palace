@@ -56,7 +56,7 @@ function Home() {
             </h1>
 
             <p className="text-lg md:text-xl mb-6">
-              Luxury • Comfort • Memorable Experiences
+              {t.heroSubtitle}
             </p>
 
             <Link
@@ -76,7 +76,7 @@ function Home() {
           variants={fadeUp}
         >
           <h2 className="text-4xl font-bold text-center mb-12">
-            {language === "en" ? "Stay Experience" : "रहने का अनुभव"}
+            {t.stayExperience}
           </h2>
 
           <div className="grid md:grid-cols-2 gap-10 items-center">
@@ -86,32 +86,31 @@ function Home() {
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition duration-500"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white">
-                {language === "en" ? "Premium Rooms" : "प्रीमियम कमरे"}
+                {t.premiumRooms}
               </div>
             </div>
 
             <div>
               <h3 className="text-2xl font-bold mb-4">
-                Luxury Rooms & Comfort
+                {t.luxuryRooms}
               </h3>
 
               <p className="text-gray-600 mb-4">
-                Experience thoughtfully designed rooms with modern interiors,
-                premium bedding, and a peaceful ambiance.
-              </p>
+  {t.luxuryDesc}
+</p>
 
               <ul className="text-gray-600 mb-6 space-y-2">
-                <li>✔ Spacious & hygienic rooms</li>
-                <li>✔ 24/7 room service</li>
-                <li>✔ High-speed WiFi & smart TV</li>
-                <li>✔ Comfortable bedding & AC</li>
+                <li>✔ {t.stay1}</li>
+                <li>✔ {t.stay2}</li>
+                <li>✔ {t.stay3}</li>
+                <li>✔ {t.stay4}</li>
               </ul>
 
               <Link
                 to="/rooms"
                 className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition"
               >
-                Explore Rooms
+                {t.exploreRooms}
               </Link>
             </div>
           </div>
@@ -127,26 +126,25 @@ function Home() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
               <h3 className="text-2xl font-bold mb-4">
-                Dining Experience
+                {t.diningTitle}
               </h3>
 
               <p className="text-gray-600 mb-4">
-                Enjoy a rich culinary journey with a variety of cuisines prepared
-                by experienced chefs.
+                {t.diningDesc}
               </p>
 
               <ul className="text-gray-600 mb-6 space-y-2">
-                <li>✔ Multi-cuisine menu</li>
-                <li>✔ Hygienic kitchen</li>
-                <li>✔ Family-friendly ambiance</li>
-                <li>✔ Quick service</li>
+                <li>✔ {t.dining1}</li>
+                <li>✔ {t.dining2}</li>
+                <li>✔ {t.dining3}</li>
+                <li>✔ {t.dining4}</li>
               </ul>
 
               <Link
                 to="/gallery"
                 className="bg-black text-white px-6 py-3 rounded"
               >
-                View Dining
+                {t.viewDining}
               </Link>
             </div>
 
@@ -179,25 +177,25 @@ function Home() {
 
             <div>
               <h3 className="text-2xl font-bold mb-4">
-                Events & Banquet
+                {t.banquet}
               </h3>
 
               <p className="text-gray-600 mb-4">
-                Perfect venue for weddings, parties and corporate events.
+                {t.banquetDesc}
               </p>
 
               <ul className="text-gray-600 mb-6 space-y-2">
-                <li>✔ Large seating capacity</li>
-                <li>✔ Decoration support</li>
-                <li>✔ Catering services</li>
-                <li>✔ Parking facility</li>
+                <li>✔ {t.b1}</li>
+                <li>✔ {t.b2}</li>
+                <li>✔ {t.b3}</li>
+                <li>✔ {t.b4}</li>
               </ul>
 
               <Link
                 to="/contact"
                 className="bg-black text-white px-6 py-3 rounded"
               >
-                Enquire Now
+                {t.enquire}
               </Link>
             </div>
           </div>
@@ -211,23 +209,23 @@ function Home() {
           variants={fadeUp}
         >
           <h2 className="text-3xl font-bold mb-10">
-            {language === "en" ? "Guest Reviews" : "ग्राहक समीक्षा"}
+            {t.reviews}
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                text: "Amazing stay and great service!",
+                text: "{t.rev1}",
                 name: "Rahul Kumar",
                 city: "Patna",
               },
               {
-                text: "Best hotel experience in Muzaffarpur.",
+                text: "{t.rev2}",
                 name: "Amit Singh",
                 city: "Delhi",
               },
               {
-                text: "Clean rooms and great ambiance.",
+                text: "{t.rev3}",
                 name: "Priya Sharma",
                 city: "Lucknow",
               },
@@ -248,9 +246,7 @@ function Home() {
         {/* CTA */}
         <div className="bg-yellow-400 py-16 text-center">
           <h2 className="text-2xl font-bold mb-4">
-            {language === "en"
-              ? "Book Your Luxury Stay Today"
-              : "आज ही अपनी बुकिंग करें"}
+            {t.cta}
           </h2>
 
           <Link
@@ -260,6 +256,67 @@ function Home() {
             {t.bookNow}
           </Link>
         </div>
+        {/* LEADERSHIP SECTION */}
+<div className="py-20 px-6 md:px-20 bg-white">
+
+  <h2 className="text-3xl font-bold text-center mb-16">
+    {t.leadershipTitle}
+  </h2>
+
+  {/* CEO */}
+  <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
+    <img
+      src="/ceo.JPG"
+      className="rounded-xl shadow-lg w-full h-[350px] object-cover"
+    />
+
+    <div>
+      <h3 className="text-2xl font-bold">{t.ceoName}</h3>
+      <p className="text-yellow-500 mb-2">{t.ceo}</p>
+      <p className="text-gray-600 mb-4">{t.ceoDesc}</p>
+      <blockquote className="italic text-gray-500 border-l-4 pl-4">
+        "{t.ceoQuote}"
+      </blockquote>
+    </div>
+  </div>
+
+  {/* COO */}
+  <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
+
+    <div>
+      <h3 className="text-2xl font-bold">{t.cooName}</h3>
+      <p className="text-yellow-500 mb-2">{t.coo}</p>
+      <p className="text-gray-600 mb-4">{t.cooDesc}</p>
+      <blockquote className="italic text-gray-500 border-l-4 pl-4">
+        "{t.cooQuote}"
+      </blockquote>
+    </div>
+
+    <img
+      src="coo.jpg"
+      className="rounded-xl shadow-lg w-full h-[350px] object-cover"
+    />
+  </div>
+
+  {/* CMO */}
+  <div className="grid md:grid-cols-2 gap-10 items-center">
+
+    <img
+      src="cmo.jpg"
+      className="rounded-xl shadow-lg w-full h-[350px] object-cover"
+    />
+
+    <div>
+      <h3 className="text-2xl font-bold">{t.cmoName}</h3>
+      <p className="text-yellow-500 mb-2">{t.cmo}</p>
+      <p className="text-gray-600 mb-4">{t.cmoDesc}</p>
+      <blockquote className="italic text-gray-500 border-l-4 pl-4">
+        "{t.cmoQuote}"
+      </blockquote>
+    </div>
+  </div>
+
+</div>
       </>
     </PageWrapper>
   );

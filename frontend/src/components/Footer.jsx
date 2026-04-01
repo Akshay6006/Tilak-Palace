@@ -1,61 +1,58 @@
 import { useLanguage } from "../context/LanguageContext";
 
 function Footer() {
-  const { language } = useLanguage();
+  // const { language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <footer className="bg-black text-white px-6 md:px-20 py-12">
       
-      {/* TOP SECTION */}
+      {/* TOP */}
       <div className="grid md:grid-cols-4 gap-8">
 
         {/* BRAND */}
         <div>
           <h2 className="text-xl font-bold mb-4">Tilak Palace</h2>
           <p className="text-gray-400">
-            {language === "en"
-              ? "Luxury stay and premium hospitality in Muzaffarpur."
-              : "मुज़फ्फरपुर में लक्ज़री होटल और प्रीमियम सुविधाएं।"}
+            {t.footerTitle}
           </p>
         </div>
 
         {/* EXPLORE */}
         <div>
           <h3 className="font-bold mb-3">
-            {language === "en" ? "Explore" : "खोजें"}
+            {t.explore}
           </h3>
           <ul className="space-y-2 text-gray-400">
-            <li>Home</li>
-            <li>Rooms</li>
-            <li>Gallery</li>
-            <li>Booking</li>
+            <li>{t.home}</li>
+            <li>{t.rooms}</li>
+            <li>{t.gallery}</li>
+            <li>{t.booking}</li>
           </ul>
         </div>
 
         {/* SERVICES */}
         <div>
           <h3 className="font-bold mb-3">
-            {language === "en" ? "Services" : "सेवाएं"}
+            {t.services}
           </h3>
           <ul className="space-y-2 text-gray-400">
-            <li>Restaurant</li>
-            <li>Banquet Hall</li>
-            <li>Parking</li>
-            <li>Room Service</li>
+            <li>{t.restaurant}</li>
+            <li>{t.banquetHall}</li>
+            <li>{t.parking}</li>
+            <li>{t.roomService}</li>
           </ul>
         </div>
 
         {/* CONTACT */}
         <div>
           <h3 className="font-bold mb-3">
-            {language === "en" ? "Contact" : "संपर्क"}
+            {t.contactTitle}
           </h3>
           <p className="text-gray-400">📞 +91 9876543210</p>
           <p className="text-gray-400">📧 tilakpalace@gmail.com</p>
           <p className="text-gray-400">
-            {language === "en"
-              ? "Muzaffarpur, Bihar"
-              : "मुज़फ्फरपुर, बिहार"}
+            {t.location}
           </p>
         </div>
 
@@ -70,7 +67,7 @@ function Footer() {
 
       {/* BOTTOM */}
       <div className="text-center mt-8 text-gray-500 text-sm">
-        © 2026 Tilak Palace. All rights reserved.
+        {t.rights}
       </div>
     </footer>
   );

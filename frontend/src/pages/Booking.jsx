@@ -5,7 +5,7 @@ import PageWrapper from "../components/PageWrapper";
 import toast from "react-hot-toast";
 
 function Booking() {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
   const location = useLocation();
 
   const params = new URLSearchParams(location.search);
@@ -24,7 +24,6 @@ function Booking() {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ Auto select room
   useEffect(() => {
     if (selectedRoom) {
       setForm((prev) => ({
@@ -34,7 +33,6 @@ function Booking() {
     }
   }, [selectedRoom]);
 
-  // ✅ Calculate days & price
   useEffect(() => {
     if (form.checkIn && form.checkOut) {
       const start = new Date(form.checkIn);
@@ -54,59 +52,53 @@ function Booking() {
     }
   }, [form.checkIn, form.checkOut, form.roomType]);
 
-  // ✅ Input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  // ✅ File upload (SAFE)
-const handleFile = (e) => {
-  const file = e.target.files[0];
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  if (!file) return;
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error(t.errors.largeImage);
+      return;
+    }
 
-  // ❌ limit to 1MB (IMPORTANT)
-  if (file.size > 1 * 1024 * 1024) {
-    toast.error("Image too large (max 1MB) ❌");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onloadend = () => {
-    setForm((prev) => ({
-      ...prev,
-      paymentScreenshot: reader.result,
-    }));
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm((prev) => ({
+        ...prev,
+        paymentScreenshot: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
   };
 
-  reader.readAsDataURL(file);
-};
-
-  // ✅ Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔥 VALIDATION
     if (!form.name || !form.phone || !form.roomType) {
-      toast.error("Fill all fields ❌");
+      toast.error(t.errors.fill);
       return;
     }
 
     if (!form.paymentScreenshot) {
-      toast.error("Upload payment screenshot ❌");
+      toast.error(t.errors.upload);
       return;
     }
 
     if (form.days <= 0) {
-      toast.error("Invalid dates ❌");
+      toast.error(t.errors.invalidDate);
       return;
     }
 
     setLoading(true);
 
     try {
+      console.log("Sending data:", form);
+
       const res = await fetch(
         "https://tilak-palace.onrender.com/book-room",
         {
@@ -120,9 +112,13 @@ const handleFile = (e) => {
 
       const data = await res.json();
 
-      if (res.ok) {
-        toast.success("Booking Successful 🎉");
+      console.log("Response:", data);
 
+      // 🔥 IMPORTANT FIX
+      if (res.status === 201 && data.data) {
+        toast.success(t.errors.success);
+
+        // Reset form
         setForm({
           name: "",
           phone: "",
@@ -133,13 +129,14 @@ const handleFile = (e) => {
           totalPrice: 0,
           paymentScreenshot: "",
         });
+
       } else {
-        console.log(data);
-        toast.error(data.message || "Booking Failed ❌");
+        toast.error(data.message || t.errors.failed);
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Server Error ❌");
+
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(t.errors.server);
     }
 
     setLoading(false);
@@ -150,116 +147,58 @@ const handleFile = (e) => {
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 py-16 px-6 md:px-20 text-white">
 
         <h1 className="text-3xl font-bold text-center mb-10">
-          {language === "en" ? "Book Your Stay" : "अपनी बुकिंग करें"}
+          {t.bookingTitle}
         </h1>
 
         <div className="grid md:grid-cols-2 gap-10">
 
           {/* FORM */}
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg"
-          >
+          <form onSubmit={handleSubmit} className="bg-white/10 p-8 rounded-xl">
 
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full p-3 mb-4 rounded text-black"
-              required
-            />
+            <input name="name" placeholder={t.name} value={form.name} onChange={handleChange} className="w-full p-3 mb-4 rounded text-black" />
 
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone Number"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full p-3 mb-4 rounded text-black"
-              required
-            />
+            <input name="phone" placeholder={t.phone} value={form.phone} onChange={handleChange} className="w-full p-3 mb-4 rounded text-black" />
 
-            <select
-              name="roomType"
-              value={form.roomType}
-              onChange={handleChange}
-              className="w-full p-3 mb-4 rounded text-black"
-              required
-            >
-              <option value="">Select Room</option>
+            <select name="roomType" value={form.roomType} onChange={handleChange} className="w-full p-3 mb-4 rounded text-black">
+              <option value="">{t.selectRoom}</option>
               <option>Single Room</option>
               <option>Deluxe Room</option>
               <option>Suite Room</option>
             </select>
 
             <div className="flex gap-4 mb-4">
-              <input
-                type="date"
-                name="checkIn"
-                value={form.checkIn}
-                onChange={handleChange}
-                className="w-full p-3 rounded text-black"
-                required
-              />
-
-              <input
-                type="date"
-                name="checkOut"
-                value={form.checkOut}
-                onChange={handleChange}
-                className="w-full p-3 rounded text-black"
-                required
-              />
+              <input type="date" name="checkIn" value={form.checkIn} onChange={handleChange} className="w-full p-3 rounded text-black" />
+              <input type="date" name="checkOut" value={form.checkOut} onChange={handleChange} className="w-full p-3 rounded text-black" />
             </div>
 
-            {/* QR */}
             <div className="bg-black p-4 rounded mb-4 text-center">
-              <p className="mb-2">Scan & Pay</p>
-              <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=yourupi@upi"
-                className="mx-auto"
-              />
-              <p className="text-sm mt-2">UPI ID: yourupi@upi</p>
+              <p>{t.scanPay}</p>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=yourupi@upi" className="mx-auto" />
+              <p className="text-sm mt-2">{t.upi}: yourupi@upi</p>
             </div>
 
-            {/* FILE */}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFile}
-              className="w-full mb-4"
-              required
-            />
+            <input type="file" onChange={handleFile} className="w-full mb-4" />
 
-            <button
-              type="submit"
-              className="w-full bg-yellow-400 text-black py-3 rounded font-semibold"
-            >
-              {loading
-                ? "Processing..."
-                : language === "en"
-                ? "Confirm Booking"
-                : "बुकिंग करें"}
+            <button className="w-full bg-yellow-400 text-black py-3 rounded font-semibold">
+              {loading ? t.processing : t.confirmBooking}
             </button>
           </form>
 
           {/* SUMMARY */}
-          <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Booking Summary</h2>
+          <div className="bg-white/10 p-8 rounded-xl">
+            <h2 className="text-xl font-bold mb-4">{t.bookingSummary}</h2>
 
-            <p>Room: {form.roomType || "-"}</p>
-            <p>Days: {form.days}</p>
-            <p>Total: ₹{form.totalPrice}</p>
+            <p>{t.room}: {form.roomType || "-"}</p>
+            <p>{t.days}: {form.days}</p>
+            <p>{t.total}: ₹{form.totalPrice}</p>
 
             <hr className="my-4" />
 
-            <h3 className="font-bold mb-2">Why Book With Us?</h3>
+            <h3 className="font-bold mb-2">{t.whyBook}</h3>
             <ul className="space-y-2 text-sm">
-              <li>✔ Best price guarantee</li>
-              <li>✔ Secure payment</li>
-              <li>✔ 24/7 support</li>
+              <li>✔ {t.bestPrice}</li>
+              <li>✔ {t.securePayment}</li>
+              <li>✔ {t.support}</li>
             </ul>
           </div>
 

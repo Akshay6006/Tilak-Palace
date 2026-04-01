@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logo from "../assets/21.png";
+import logo from "/21.png";
 
 function SplashScreen() {
   const [animate, setAnimate] = useState(false);

@@ -1,3 +1,5 @@
+import { readTransformValue } from "framer-motion";
+
 export const translations = {
   en: {
     // NAVBAR
@@ -57,17 +59,17 @@ export const translations = {
     coo: "COO",
     cmo: "CMO",
 
-    ceoName: "Akshay Kumar",
+    ceoName: "Shree Narayan Singh",
     ceoDesc: "Visionary leader.",
-    ceoQuote: "Deliver excellence.",
+    ceoQuote: "I'm here to build something for the long-term. Anything else is a distraction.",
 
-    cooName: "Rahul Singh",
+    cooName: "Krishna Kanhaiya",
     cooDesc: "Operations expert.",
-    cooQuote: "Quality matters.",
+    cooQuote: "Champions keep playing until they get it right.",
 
-    cmoName: "Priya Sharma",
+    cmoName: "Chandan Kumar",
     cmoDesc: "Marketing strategist.",
-    cmoQuote: "Create experiences.",
+    cmoQuote: "To win in the marketplace you must first win in the workplace",
 
     footerTitle: "Luxury stay and premium hospitality in Muzaffarpur.",
 
@@ -160,6 +162,22 @@ why4: "Affordable pricing",
 successMsg: "Message Sent Successfully!",
 failMsg: "Failed to send message ❌",
 serverError: "Server error ❌",
+
+feedback: "Feedback",
+feedbackTitle: "Share Your Experience",
+yourName: "Your Name",
+yourMessage: "Your Experience",
+submitFeedback: "Submit Feedback",
+uploadMemory: "Upload your memory (optional)",
+happy: "Happy",
+rating: "Rating",
+complaint: "Complaint",
+suggestion: "Suggestion",
+
+shareExperience: "Share Your Experience",
+
+feedbackSuccess: "Feedback submitted successfully 🎉",
+feedbackError: "Failed to submit ❌",
   },
  
 
@@ -223,17 +241,17 @@ serverError: "Server error ❌",
     coo: "सीओओ",
     cmo: "सीएमओ",
 
-    ceoName: "अक्षय कुमार",
+    ceoName: "श्री नारायण सिंह",
     ceoDesc: "दूरदर्शी नेता।",
-    ceoQuote: "श्रेष्ठता प्रदान करें।",
+    ceoQuote: "मैं यहां दीर्घकालिक उद्देश्य के लिए कुछ बनाने आया हूं। बाकी सब तो भटकाव है।",
 
-    cooName: "राहुल सिंह",
+    cooName: "कृष्ण कन्हैया",
     cooDesc: "ऑपरेशन विशेषज्ञ।",
-    cooQuote: "गुणवत्ता महत्वपूर्ण है।",
+    cooQuote: "चैंपियन तब तक खेलते रहते हैं जब तक वे इसे सही नहीं कर लेते।",
 
-    cmoName: "प्रिया शर्मा",
+    cmoName: "चंदन कुमार",
     cmoDesc: "मार्केटिंग विशेषज्ञ।",
-    cmoQuote: "अनुभव बनाएं।",
+    cmoQuote: "बाजार में सफलता पाने के लिए आपको पहले कार्यस्थल में सफलता प्राप्त करनी होगी।",
 
     // FOOTER
     footerTitle: "मुज़फ्फरपुर में लक्ज़री होटल और प्रीमियम सुविधाएं।",
@@ -324,6 +342,22 @@ why4: "सस्ती कीमत",
 successMsg: "संदेश भेजा गया!",
 failMsg: "संदेश भेजने में विफल ❌",
 serverError: "सर्वर त्रुटि ❌",
+
+feedback: "फीडबैक",
+feedbackTitle: "अपना अनुभव साझा करें",
+yourName: "आपका नाम",
+yourMessage: "आपका अनुभव",
+submitFeedback: "फीडबैक सबमिट करें",
+uploadMemory: "अपनी यादें अपलोड करें (वैकल्पिक)",
+happy: "खुश",
+rating: "रेटिंग",
+complaint: "शिकायत",
+suggestion: "सुझाव",
+
+shareExperience: "अपना अनुभव साझा करें",
+
+feedbackSuccess: "फीडबैक सफलतापूर्वक सबमिट हुआ 🎉",
+feedbackError: "सबमिट करने में समस्या ❌",
   },
 
 };

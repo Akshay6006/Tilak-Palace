@@ -43,6 +43,10 @@ function Navbar() {
             {t.contact}
           </Link>
 
+          <Link to="/feedback" className="hover:text-yellow-400 transition">
+  {t.feedback || "Feedback"}
+</Link>
+
           {/* LANGUAGE BUTTON */}
           <button
             onClick={toggleLanguage}

@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 function Home() {
   const { language } = useLanguage();
   const t = translations[language];
+  const [feedbacks, setFeedbacks] = useState([]);
 
   // 🔥 HERO SLIDER
   const images = [
@@ -24,6 +25,13 @@ function Home() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+  fetch("https://tilak-palace-backend.onrender.com/feedbacks")
+    .then((res) => res.json())
+    .then((data) => setFeedbacks(data))
+    .catch(() => console.log("Error fetching feedback"));
+}, []);
 
   const fadeUp = {
     hidden: { opacity: 0, y: 50 },
@@ -208,39 +216,40 @@ function Home() {
           whileInView="show"
           variants={fadeUp}
         >
-          <h2 className="text-3xl font-bold mb-10">
-            {t.reviews}
-          </h2>
+          <div className="text-center mb-10">
+  <Link to="/feedback">
+    <button className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition">
+      {t.shareExperience || "Share Your Experience"}
+    </button>
+  </Link>
+</div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                text: "{t.rev1}",
-                name: "Rahul Kumar",
-                city: "Patna",
-              },
-              {
-                text: "{t.rev2}",
-                name: "Amit Singh",
-                city: "Delhi",
-              },
-              {
-                text: "{t.rev3}",
-                name: "Priya Sharma",
-                city: "Lucknow",
-              },
-            ].map((review, i) => (
-              <div
-                key={i}
-                className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition"
-              >
-                ⭐⭐⭐⭐⭐
-                <p className="mt-3 italic">"{review.text}"</p>
-                <h4 className="mt-3 font-bold">{review.name}</h4>
-                <p className="text-sm text-gray-500">{review.city}</p>
-              </div>
-            ))}
-          </div>
+             
+            {feedbacks
+     .filter((f) => f.rating >= 4 && f.type === "Happy")
+  .slice(0, 6)
+  .map((review, i) => (
+    <div
+      key={i}
+      className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition"
+    >
+      <div className="text-yellow-400">
+        {"⭐".repeat(review.rating)}
+      </div>
+
+      <p className="mt-3 italic">"{review.message}"</p>
+
+      {review.image && (
+        <img
+          src={review.image}
+          className="w-full h-40 object-cover rounded mt-3"
+        />
+      )}
+
+      <h4 className="mt-3 font-bold">{review.name}</h4>
+    </div>
+))}          </div>
         </motion.div>
 
         {/* CTA */}
@@ -293,7 +302,7 @@ function Home() {
     </div>
 
     <img
-      src="coo.jpg"
+      src="coo.JPG"
       className="rounded-xl shadow-lg w-full h-[350px] object-cover"
     />
   </div>
@@ -302,7 +311,7 @@ function Home() {
   <div className="grid md:grid-cols-2 gap-10 items-center">
 
     <img
-      src="cmo.jpg"
+      src="cmo.JPG"
       className="rounded-xl shadow-lg w-full h-[350px] object-cover"
     />
 

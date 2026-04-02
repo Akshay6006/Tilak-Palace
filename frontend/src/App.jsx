@@ -11,6 +11,7 @@ import Booking from "./pages/Booking";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import RoomDetails from "./pages/RoomDetails";
+import Feedback from "./pages/Feedback";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -33,6 +34,7 @@ function App() {
           <Route path="/booking" element={<Booking />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/feedback" element={<Feedback />} />
         </Routes>
       </div>
 

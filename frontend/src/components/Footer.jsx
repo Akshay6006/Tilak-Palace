@@ -1,4 +1,5 @@
 import { useLanguage } from "../context/LanguageContext";
+import { Link } from "react-router-dom";
 
 function Footer() {
   // const { language } = useLanguage();
@@ -24,11 +25,12 @@ function Footer() {
             {t.explore}
           </h3>
           <ul className="space-y-2 text-gray-400">
-            <li>{t.home}</li>
-            <li>{t.rooms}</li>
-            <li>{t.gallery}</li>
-            <li>{t.booking}</li>
-          </ul>
+  <li><Link to="/">{t.home}</Link></li>
+  <li><Link to="/rooms">{t.rooms}</Link></li>
+  <li><Link to="/gallery">{t.gallery}</Link></li>
+  <li><Link to="/booking">{t.booking}</Link></li>
+  <li><Link to="/feedback">{t.feedback}</Link></li>
+</ul>
         </div>
 
         {/* SERVICES */}

@@ -136,3 +136,47 @@ app.get("/messages", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+// ================== FEEDBACK MODEL ==================
+const feedbackSchema = new mongoose.Schema({
+  name: String,
+  message: String,
+  rating: Number,
+  type: String,
+  image: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Feedback = mongoose.model("Feedback", feedbackSchema);
+
+// ================== FEEDBACK ==================
+
+// POST feedback
+app.post("/feedback", async (req, res) => {
+  try {
+    const newFeedback = new Feedback(req.body);
+    await newFeedback.save();
+
+    res.status(201).json({
+      message: "✅ Feedback Saved",
+      data: newFeedback,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "❌ Failed to save feedback",
+      error: error.message,
+    });
+  }
+});
+
+// GET feedback
+app.get("/feedbacks", async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find().sort({ _id: -1 });
+    res.json(feedbacks);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

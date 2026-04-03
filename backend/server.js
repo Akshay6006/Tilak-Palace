@@ -10,8 +10,16 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ================== MIDDLEWARE ==================
-app.use(cors());
-// app.options("*", cors());
+const cors = require("cors");
+
+app.use(cors({
+  origin: ["http://localhost:5173", "https://tilak-palace.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
+app.get("/test", (req, res) => {
+  res.json({ message: "Backend working ✅" });
+});
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));

@@ -96,7 +96,7 @@ const t = translations[language];
 
   <div className="grid grid-cols-2 gap-4">
     <select
-      name={t.rating}
+      name="rating"
       value={form.rating}
       onChange={handleChange}
       className="p-3 text-black rounded-lg"

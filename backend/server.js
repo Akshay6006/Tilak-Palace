@@ -1,4 +1,5 @@
-console.log("🔥 FORCE NEW DEPLOY");
+console.log("🔥 SERVER STARTED NEW VERSION");
+
 require("dotenv").config();
 
 const express = require("express");

@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 5000;
 
 // ================== MIDDLEWARE ==================
 app.use(cors());
+app.options("*", cors());
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));

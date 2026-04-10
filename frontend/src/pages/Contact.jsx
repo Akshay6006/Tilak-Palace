@@ -22,7 +22,7 @@ function Contact() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://tilak-palace-backend.onrender.com/contact", {
+      const res = await fetch("https://tilak-palace.onrender.com/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

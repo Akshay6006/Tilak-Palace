@@ -27,7 +27,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-  fetch("https://tilak-palace-backend.onrender.com/feedbacks")
+  fetch("https://tilak-palace.onrender.com/feedbacks")
     .then((res) => res.json())
     .then((data) => setFeedbacks(data))
     .catch(() => console.log("Error fetching feedback"));

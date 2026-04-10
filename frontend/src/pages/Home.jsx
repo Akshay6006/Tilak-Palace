@@ -22,7 +22,7 @@ function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
@@ -275,8 +275,8 @@ function Home() {
   {/* CEO */}
   <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
     <img
-      src="/ceo.JPG"
-      className="rounded-xl shadow-lg w-full h-[350px] object-cover"
+      src="/ceo.png"
+      className="rounded-xl shadow-lg w-full h-[350px] object-cover object-top"
     />
 
     <div>
@@ -302,7 +302,7 @@ function Home() {
     </div>
 
     <img
-      src="coo.JPG"
+      src="coo.png"
       className="rounded-xl shadow-lg w-full h-[350px] object-cover"
     />
   </div>
@@ -311,7 +311,7 @@ function Home() {
   <div className="grid md:grid-cols-2 gap-10 items-center">
 
     <img
-      src="cmo.JPG"
+      src="cmo.png"
       className="rounded-xl shadow-lg w-full h-[350px] object-cover"
     />
 

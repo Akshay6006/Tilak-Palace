@@ -36,7 +36,7 @@ const t = translations[language];
   try {
     console.log("Sending:", form);
 
-    const res = await fetch("https://tilak-palace-backend.onrender.com/feedback", {
+    const res = await fetch("https://tilak-palace.onrender.com/feedback", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

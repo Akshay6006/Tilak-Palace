@@ -22,7 +22,7 @@ app.use(cors({
 }));
 
 // VERY IMPORTANT
-app.options("*", cors());
+app.use(cors());
 
 app.get("/test", (req, res) => {
   res.json({ message: "Backend working ✅" });

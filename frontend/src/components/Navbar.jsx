@@ -91,6 +91,10 @@ function Navbar() {
             {t.contact}
           </Link>
 
+          <Link to="/feedback" onClick={() => setMenuOpen(false)}>
+            {t.feedback}
+          </Link>
+
           <button
             onClick={() => {
               toggleLanguage();

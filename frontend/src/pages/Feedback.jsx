@@ -44,23 +44,28 @@ const t = translations[language];
       body: JSON.stringify(form),
     });
 
+    // ✅ IMPORTANT: check before parsing JSON
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("Server error:", text);
+      throw new Error("Server response not OK");
+    }
+
     const data = await res.json();
     console.log("Response:", data);
 
-    if (res.ok) {
-      toast.success(t.feedbackSuccess);
-      setForm({
-        name: "",
-        message: "",
-        rating: 5,
-        type: "Happy",
-        image: "",
-      });
-    } else {
-      toast.error(t.feedbackError);
-    }
+    toast.success(t.feedbackSuccess);
+
+    setForm({
+      name: "",
+      message: "",
+      rating: 5,
+      type: "Happy",
+      image: "",
+    });
+
   } catch (err) {
-    console.error(err);
+    console.error("ERROR:", err);
     toast.error("Server error ❌");
   }
 };

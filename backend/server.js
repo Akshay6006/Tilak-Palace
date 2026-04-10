@@ -16,8 +16,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors({
   origin: ["http://localhost:5173", "https://tilak-palace.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true
 }));
+
+// VERY IMPORTANT
+app.options("*", cors());
 
 app.get("/test", (req, res) => {
   res.json({ message: "Backend working ✅" });

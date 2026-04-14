@@ -8,10 +8,10 @@ const cors = require("cors");
 
 const app = express();
 
-// ================== CONFIG ==================
+//  CONFIG 
 const PORT = process.env.PORT || 5000;
 
-// ================== MIDDLEWARE ==================
+//  MIDDLEWARE 
 // const cors = require("cors");
 
 app.use(cors({
@@ -21,8 +21,6 @@ app.use(cors({
   credentials: true
 }));
 
-// VERY IMPORTANT
-app.use(cors());
 
 app.get("/test", (req, res) => {
   res.json({ message: "Backend working ✅" });
@@ -31,7 +29,7 @@ app.get("/test", (req, res) => {
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-// ================== MONGODB ==================
+// MongoDB 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -43,7 +41,6 @@ mongoose
   })
   .catch((err) => console.log("❌ MongoDB Error:", err));
 
-// ================== MODELS ==================
 
 // Booking Model
 const bookingSchema = new mongoose.Schema({
@@ -72,8 +69,7 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model("Contact", contactSchema);
 
-// ================== ROUTES ==================
-
+//Routes
 // Test
 app.get("/", (req, res) => {
   res.send("✅ Tilak Palace Backend Running");
@@ -88,7 +84,7 @@ app.get("/rooms", (req, res) => {
   ]);
 });
 
-// ================== BOOKING ==================
+//BOOKING
 
 app.post("/book-room", async (req, res) => {
   try {
@@ -116,8 +112,7 @@ app.get("/bookings", async (req, res) => {
   }
 });
 
-// ================== CONTACT ==================
-
+// Contact
 app.post("/contact", async (req, res) => {
   try {
     const newMessage = new Contact(req.body);
@@ -143,7 +138,7 @@ app.get("/messages", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-// ================== FEEDBACK MODEL ==================
+//FEEDBACK MODEL
 const feedbackSchema = new mongoose.Schema({
   name: String,
   message: String,
@@ -158,7 +153,18 @@ const feedbackSchema = new mongoose.Schema({
 
 const Feedback = mongoose.model("Feedback", feedbackSchema);
 
-// ================== FEEDBACK ==================
+//RECEIPT MODEL
+
+const receiptSchema = new mongoose.Schema({
+  image: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Receipt = mongoose.model("Receipt", receiptSchema);
+// FEEDBACK
 
 // POST feedback
 app.post("/feedback", async (req, res) => {
@@ -181,10 +187,54 @@ app.post("/feedback", async (req, res) => {
 // GET feedback
 app.get("/feedbacks", async (req, res) => {
   try {
-    const feedbacks = await Feedback.find().sort({ _id: -1 });
+    const { limit, rating } = req.query;
+
+    let query = {};
+
+
+    // ⭐ filter by rating
+    if (rating) {
+      query.rating = Number(rating);
+    }
+
+    let feedbacks = await Feedback.find(query).sort({ _id: -1 });
+
+    // 🎯 Randomize results (important for rotation)
+    feedbacks = feedbacks.sort(() => 0.5 - Math.random());
+
+    // 🔥 Limit results
+    if (limit) {
+      feedbacks = feedbacks.slice(0, Number(limit));
+    }
+
     res.json(feedbacks);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+//RECEIPT
+
+app.post("/upload-receipt", async (req, res) => {
+  try {
+    const newReceipt = new Receipt({
+      image: req.body.receipt,
+    });
+
+    await newReceipt.save(); 
+
+    res.json({ message: "Receipt saved in DB ✅" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/book-table", async (req, res) => {
+  try {
+    console.log("Table booking:", req.body);
+    res.json({ message: "Table booked successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 //

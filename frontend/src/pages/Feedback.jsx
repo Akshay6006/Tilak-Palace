@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageWrapper from "../components/PageWrapper";
 import toast from "react-hot-toast";
 import { useLanguage } from "../context/LanguageContext";
 import { translations } from "../data/translations";
 
 function Feedback() {
+   const [feedbacks, setFeedbacks] = useState([]);
   const [form, setForm] = useState({
     name: "",
     message: "",
@@ -13,6 +14,15 @@ function Feedback() {
     image: "",
   });
   const { language } = useLanguage();
+  useEffect(() => {
+  fetch("https://tilak-palace.onrender.com/feedbacks")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("All feedbacks:", data);
+      setFeedbacks(data);
+    })
+    .catch((err) => console.log(err));
+}, []);
 const t = translations[language];
 
   const handleChange = (e) => {
@@ -44,7 +54,6 @@ const t = translations[language];
       body: JSON.stringify(form),
     });
 
-    // ✅ IMPORTANT: check before parsing JSON
     if (!res.ok) {
       const text = await res.text();
       console.error("Server error:", text);
@@ -55,6 +64,10 @@ const t = translations[language];
     console.log("Response:", data);
 
     toast.success(t.feedbackSuccess);
+
+    const updated = await fetch("https://tilak-palace.onrender.com/feedbacks");
+const newData = await updated.json();
+setFeedbacks(newData);
 
     setForm({
       name: "",
@@ -135,7 +148,64 @@ const t = translations[language];
     {t.submitFeedback}
   </button>
 
+  
+
 </form>
+
+<div className="mt-16">
+  <h2 className="text-3xl text-center mb-10 font-bold">
+    All Feedback
+  </h2>
+
+<div className="mt-16">
+  <h2 className="text-3xl text-center mb-10 font-bold">
+    {t.allFeedback || "All Feedback"}
+  </h2>
+
+  <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    {feedbacks.map((review, i) => (
+      <div
+        key={i}
+        className="bg-white text-black rounded-2xl shadow-lg p-6 
+        hover:shadow-2xl transition duration-300 transform hover:-translate-y-2"
+      >
+        <div className="text-yellow-500 text-lg">
+          {"⭐".repeat(review.rating)}
+        </div>
+
+        <p className="mt-4 text-gray-700 italic leading-relaxed">
+          "{review.message}"
+        </p>
+
+        {review.image && (
+          <img
+            src={review.image}
+            className="w-full h-40 object-cover rounded-lg mt-4"
+          />
+        )}
+
+        <div className="mt-4 flex items-center gap-3">
+          <div className="w-10 h-10 bg-yellow-400 text-black flex items-center justify-center rounded-full font-bold">
+            {review.name.charAt(0).toUpperCase()}
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-gray-900">
+              {review.name}
+            </h4>
+            <p className="text-xs text-gray-500">
+              {review.type}
+            </p>
+          </div>
+        </div>
+      </div>
+    ))}
+
+  </div>
+</div>
+</div>
+
       </div>
     </PageWrapper>
   );

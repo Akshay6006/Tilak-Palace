@@ -80,7 +80,6 @@ function Gallery() {
     <PageWrapper>
       <div className="min-h-screen bg-black text-white py-16 px-4 md:px-20">
 
-        {/* TITLE */}
         <motion.h1
           className="text-3xl md:text-4xl font-bold text-center mb-10"
           initial="hidden"
@@ -90,7 +89,6 @@ function Gallery() {
           {t.gallery}
         </motion.h1>
 
-        {/* FILTER */}
         <div className="flex justify-center gap-3 md:gap-4 mb-10 flex-wrap">
           {categories.map((cat) => (
             <button
@@ -107,7 +105,6 @@ function Gallery() {
           ))}
         </div>
 
-        {/* GRID */}
         <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
           {filteredImages.map((img, i) => (
             <motion.div
@@ -138,7 +135,6 @@ function Gallery() {
           ))}
         </div>
 
-        {/* LIGHTBOX */}
         {selectedIndex !== null && (
           <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50">
 

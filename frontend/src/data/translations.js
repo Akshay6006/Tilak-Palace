@@ -2,19 +2,19 @@ import { readTransformValue } from "framer-motion";
 
 export const translations = {
   en: {
-    // NAVBAR
+   
     home: "Home",
     rooms: "Rooms",
     booking: "Booking",
     gallery: "Gallery",
     contact: "Contact",
 
-    // HERO
+   
     welcome: "Welcome to Tilak Palace",
     heroSubtitle: "Luxury • Comfort • Memorable Experiences",
     bookNow: "Book Now",
 
-    // STAY
+    
     stayExperience: "Stay Experience",
     premiumRooms: "Premium Rooms",
     luxuryRooms: "Luxury Rooms & Comfort",
@@ -25,7 +25,7 @@ export const translations = {
     stay4: "Comfortable bedding",
     exploreRooms: "Explore Rooms",
 
-    // DINING
+    
     diningTitle: "Dining Experience",
     diningDesc: "Enjoy delicious multi-cuisine meals.",
     dining1: "Multi-cuisine",
@@ -35,7 +35,7 @@ export const translations = {
     viewDining: "View Dining",
     // restaurant: "Restaurant",
 
-    // BANQUET
+    
     banquet: "Events & Banquet",
     banquetDesc: "Perfect venue for events.",
     b1: "Large capacity",
@@ -44,16 +44,16 @@ export const translations = {
     b4: "Parking",
     enquire: "Enquire Now",
 
-    // REVIEWS
+    
     reviews: "Guest Reviews",
     rev1: "Amazing stay!",
     rev2: "Best hotel experience!",
     rev3: "Clean and comfortable!",
 
-    // CTA
+    
     cta: "Book Your Luxury Stay Today",
 
-    // LEADERSHIP
+   
     leadershipTitle: "Our Leadership",
     ceo: "CEO",
     coo: "COO",
@@ -178,25 +178,38 @@ shareExperience: "Share Your Experience",
 
 feedbackSuccess: "Feedback submitted successfully 🎉",
 feedbackError: "Failed to submit ❌",
+
+bookTable: "Book Table",
+menu: "Menu",
+foodItem: "Food Item",
+name: "Name",
+guests: "Guests",
+addToCart: "Add to Cart",
+yourOrder: "Your Order",
+total: "Total",
+payNow: "Pay Now",
+payViaUPI: "Pay via UPI",
+upiId: "UPI ID"
   },
+  
  
 
 
 
   hi: {
-    // NAVBAR
+    
     home: "होम",
     rooms: "कमरे",
     booking: "बुकिंग",
     gallery: "गैलरी",
     contact: "संपर्क",
 
-    // HERO
+    
     welcome: "तिलक पैलेस में आपका स्वागत है",
     heroSubtitle: "लक्ज़री • आराम • यादगार अनुभव",
     bookNow: "बुक करें",
 
-    // STAY
+    
     stayExperience: "रहने का अनुभव",
     premiumRooms: "प्रीमियम कमरे",
     luxuryRooms: "लक्ज़री कमरे",
@@ -207,7 +220,7 @@ feedbackError: "Failed to submit ❌",
     stay4: "आरामदायक बिस्तर",
     exploreRooms: "कमरे देखें",
 
-    // DINING
+   
     diningTitle: "भोजन अनुभव",
     diningDesc: "स्वादिष्ट भोजन का आनंद लें।",
     dining1: "मल्टी-कुज़ीन",
@@ -217,7 +230,6 @@ feedbackError: "Failed to submit ❌",
     viewDining: "डाइनिंग देखें",
     restaurant: "रेस्टोरेंट",
 
-    // BANQUET
     banquet: "कार्यक्रम और बैंक्वेट",
     banquetDesc: "कार्यक्रमों के लिए उपयुक्त।",
     b1: "बड़ी क्षमता",
@@ -226,16 +238,16 @@ feedbackError: "Failed to submit ❌",
     b4: "पार्किंग",
     enquire: "पूछताछ करें",
 
-    // REVIEWS
+    
     reviews: "ग्राहक समीक्षा",
     rev1: "शानदार अनुभव!",
     rev2: "सबसे अच्छा होटल!",
     rev3: "बहुत साफ!",
 
-    // CTA
+    
     cta: "आज ही बुक करें",
 
-    // LEADERSHIP
+    
     leadershipTitle: "हमारी टीम",
     ceo: "सीईओ",
     coo: "सीओओ",
@@ -253,7 +265,7 @@ feedbackError: "Failed to submit ❌",
     cmoDesc: "मार्केटिंग विशेषज्ञ।",
     cmoQuote: "बाजार में सफलता पाने के लिए आपको पहले कार्यस्थल में सफलता प्राप्त करनी होगी।",
 
-    // FOOTER
+
     footerTitle: "मुज़फ्फरपुर में लक्ज़री होटल और प्रीमियम सुविधाएं।",
     explore: "खोजें",
     services: "सेवाएं",
@@ -264,7 +276,7 @@ feedbackError: "Failed to submit ❌",
     location: "मुज़फ्फरपुर, बिहार",
     rights: "© 2026 Tilak Palace. सर्वाधिकार सुरक्षित।",
 
-    // ROOMS
+    
     roomsTitle: "हमारे कमरे",
     viewDetails: "विवरण देखें",
     night: "रात",
@@ -291,7 +303,6 @@ feedbackError: "Failed to submit ❌",
       premiumView: "प्रीमियम व्यू"
     },
 
-    // BOOKING
     bookingTitle: "अपनी बुकिंग करें",
     name: "आपका नाम",
     phone: "फोन नंबर",
@@ -358,6 +369,18 @@ shareExperience: "अपना अनुभव साझा करें",
 
 feedbackSuccess: "फीडबैक सफलतापूर्वक सबमिट हुआ 🎉",
 feedbackError: "सबमिट करने में समस्या ❌",
+
   },
+bookTable: "टेबल बुक करें",
+menu: "मेन्यू",
+foodItem: "खाना आइटम",
+name: "नाम",
+guests: "मेहमान",
+addToCart: "कार्ट में जोड़ें",
+yourOrder: "आपका ऑर्डर",
+total: "कुल",
+payNow: "भुगतान करें",
+payViaUPI: "UPI से भुगतान करें",
+upiId: "UPI आईडी"
 
 };

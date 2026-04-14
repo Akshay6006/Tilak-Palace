@@ -114,11 +114,9 @@ function Booking() {
 
       console.log("Response:", data);
 
-      // 🔥 IMPORTANT FIX
       if (res.status === 201 && data.data) {
         toast.success(t.errors.success);
 
-        // Reset form
         setForm({
           name: "",
           phone: "",
@@ -152,7 +150,6 @@ function Booking() {
 
         <div className="grid md:grid-cols-2 gap-10">
 
-          {/* FORM */}
           <form onSubmit={handleSubmit} className="bg-white/10 p-8 rounded-xl">
 
             <input name="name" placeholder={t.name} value={form.name} onChange={handleChange} className="w-full p-3 mb-4 rounded text-black" />
@@ -184,7 +181,6 @@ function Booking() {
             </button>
           </form>
 
-          {/* SUMMARY */}
           <div className="bg-white/10 p-8 rounded-xl">
             <h2 className="text-xl font-bold mb-4">{t.bookingSummary}</h2>
 

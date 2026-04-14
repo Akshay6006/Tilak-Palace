@@ -9,10 +9,10 @@ function Navbar() {
   return (
     <nav className="bg-black/90 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md">
       
-      {/* MAIN NAV */}
+      
       <div className="flex justify-between items-center px-6 h-16">
 
-        {/* LOGO */}
+        
         <div className="flex items-center gap-2">
           <img src="/21.png" className="w-8 h-8" />
           <h1 className="font-semibold text-lg tracking-wide">
@@ -20,7 +20,7 @@ function Navbar() {
           </h1>
         </div>
 
-        {/* DESKTOP MENU */}
+       
         <div className="hidden md:flex gap-8 items-center text-sm font-medium">
 
           <Link to="/" className="hover:text-yellow-400 transition">
@@ -47,7 +47,7 @@ function Navbar() {
   {t.feedback || "Feedback"}
 </Link>
 
-          {/* LANGUAGE BUTTON */}
+        
           <button
             onClick={toggleLanguage}
             className="bg-yellow-400 text-black px-3 py-1 rounded font-semibold hover:scale-105 transition"
@@ -56,7 +56,7 @@ function Navbar() {
           </button>
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+       
         <div className="md:hidden">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -67,7 +67,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE MENU FULL SCREEN */}
+    
       {menuOpen && (
         <div className="md:hidden fixed top-16 left-0 w-full h-screen bg-black text-white flex flex-col items-center justify-center gap-8 text-xl z-[999]">
 

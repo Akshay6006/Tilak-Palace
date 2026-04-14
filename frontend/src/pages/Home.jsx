@@ -10,7 +10,27 @@ function Home() {
   const t = translations[language];
   const [feedbacks, setFeedbacks] = useState([]);
 
-  // 🔥 HERO SLIDER
+  useEffect(() => {
+  const fetchFeedbacks = () => {
+    fetch("https://tilak-palace.onrender.com/feedbacks?rating=5&limit=6")
+      .then(res => res.json())
+      .then(data => {
+        console.log("Home Feedbacks:", data);
+        setFeedbacks(data);
+      })
+      .catch(err => console.log(err));
+  };
+
+  fetchFeedbacks(); 
+
+  
+  const interval = setInterval(fetchFeedbacks, 2 * 60 * 60 * 1000);
+
+  return () => clearInterval(interval);
+
+}, []);
+
+  
   const images = [
     "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
     "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa",
@@ -26,13 +46,6 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-  fetch("https://tilak-palace.onrender.com/feedbacks")
-    .then((res) => res.json())
-    .then((data) => setFeedbacks(data))
-    .catch(() => console.log("Error fetching feedback"));
-}, []);
-
   const fadeUp = {
     hidden: { opacity: 0, y: 50 },
     show: { opacity: 1, y: 0 },
@@ -41,7 +54,7 @@ function Home() {
   return (
     <PageWrapper>
       <>
-        {/* 🔥 HERO SLIDER */}
+        
         <div
           className="min-h-screen pt-16 relative flex items-center justify-center text-white transition-all duration-1000"
           style={{
@@ -76,7 +89,7 @@ function Home() {
           </motion.div>
         </div>
 
-        {/* STAY EXPERIENCE */}
+        
         <motion.div
           className="py-20 px-6 md:px-20 bg-white"
           initial="hidden"
@@ -124,7 +137,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* DINING */}
+        
         <motion.div
           className="py-20 px-6 md:px-20 bg-gray-100"
           initial="hidden"
@@ -149,7 +162,7 @@ function Home() {
               </ul>
 
               <Link
-                to="/gallery"
+                to="/dining"
                 className="bg-black text-white px-6 py-3 rounded"
               >
                 {t.viewDining}
@@ -168,7 +181,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* BANQUET */}
+       
         <motion.div
           className="py-20 px-6 md:px-20 bg-white"
           initial="hidden"
@@ -200,7 +213,7 @@ function Home() {
               </ul>
 
               <Link
-                to="/contact"
+                to="/banquet"
                 className="bg-black text-white px-6 py-3 rounded"
               >
                 {t.enquire}
@@ -209,7 +222,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* TESTIMONIALS */}
+        
         <motion.div
           className="py-20 px-6 md:px-20 bg-gray-100 text-center"
           initial="hidden"
@@ -223,6 +236,8 @@ function Home() {
     </button>
   </Link>
 </div>
+
+
 
           <div className="grid md:grid-cols-3 gap-6">
              
@@ -252,7 +267,7 @@ function Home() {
 ))}          </div>
         </motion.div>
 
-        {/* CTA */}
+        
         <div className="bg-yellow-400 py-16 text-center">
           <h2 className="text-2xl font-bold mb-4">
             {t.cta}
@@ -265,14 +280,14 @@ function Home() {
             {t.bookNow}
           </Link>
         </div>
-        {/* LEADERSHIP SECTION */}
+        
 <div className="py-20 px-6 md:px-20 bg-white">
 
   <h2 className="text-3xl font-bold text-center mb-16">
     {t.leadershipTitle}
   </h2>
 
-  {/* CEO */}
+  
   <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
     <img
       src="/ceo.png"
@@ -289,7 +304,7 @@ function Home() {
     </div>
   </div>
 
-  {/* COO */}
+  
   <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
 
     <div>
@@ -307,7 +322,7 @@ function Home() {
     />
   </div>
 
-  {/* CMO */}
+ 
   <div className="grid md:grid-cols-2 gap-10 items-center">
 
     <img

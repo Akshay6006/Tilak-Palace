@@ -61,7 +61,6 @@ function RoomDetails() {
 
         <h1 className="text-4xl font-bold mb-6">{room.type}</h1>
 
-        {/* 🔥 IMAGE SLIDER */}
         <div className="mb-8">
           <img
             src={room.images[current]}
@@ -82,17 +81,14 @@ function RoomDetails() {
           </div>
         </div>
 
-        {/* DESCRIPTION */}
         <p className="text-lg text-gray-700 mb-4">{room.desc}</p>
 
-        {/* FEATURES */}
         <ul className="mb-6 text-gray-600 space-y-1">
           {room.features.map((f, i) => (
             <li key={i}>✔ {f}</li>
           ))}
         </ul>
 
-        {/* EXTRA TRUST BOX */}
         <div className="bg-white shadow p-6 rounded-xl mb-6">
           <h3 className="font-bold mb-2">Why choose this room?</h3>
           <p className="text-gray-600 text-sm">
@@ -100,12 +96,10 @@ function RoomDetails() {
           </p>
         </div>
 
-        {/* PRICE */}
         <p className="text-2xl font-bold mb-6">
           ₹{room.price} / {language === "en" ? "night" : "रात"}
         </p>
 
-        {/* 🔥 AUTO BOOK BUTTON */}
         <Link
           to={`/booking?room=${room.type}`}
           className="bg-black text-white px-6 py-3 rounded"

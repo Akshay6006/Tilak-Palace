@@ -12,6 +12,9 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import RoomDetails from "./pages/RoomDetails";
 import Feedback from "./pages/Feedback";
+import Dining from "./pages/Dining";
+import Banquet from "./pages/Banquet";
+
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -35,6 +38,9 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/dining" element={<Dining />} />
+          <Route path="/banquet" element={<Banquet />} />
+
         </Routes>
       </div>
 

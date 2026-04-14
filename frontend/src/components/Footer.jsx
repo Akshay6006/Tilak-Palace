@@ -8,10 +8,10 @@ function Footer() {
   return (
     <footer className="bg-black text-white px-6 md:px-20 py-12">
       
-      {/* TOP */}
+     
       <div className="grid md:grid-cols-4 gap-8">
 
-        {/* BRAND */}
+      
         <div>
           <h2 className="text-xl font-bold mb-4">Tilak Palace</h2>
           <p className="text-gray-400">
@@ -19,7 +19,7 @@ function Footer() {
           </p>
         </div>
 
-        {/* EXPLORE */}
+        
         <div>
           <h3 className="font-bold mb-3">
             {t.explore}
@@ -33,7 +33,7 @@ function Footer() {
 </ul>
         </div>
 
-        {/* SERVICES */}
+      
         <div>
           <h3 className="font-bold mb-3">
             {t.services}
@@ -46,7 +46,7 @@ function Footer() {
           </ul>
         </div>
 
-        {/* CONTACT */}
+        
         <div>
           <h3 className="font-bold mb-3">
             {t.contactTitle}
@@ -60,14 +60,14 @@ function Footer() {
 
       </div>
 
-      {/* SOCIAL */}
+     
       <div className="flex justify-center gap-6 mt-10 text-gray-400">
         <span className="hover:text-white cursor-pointer">Instagram</span>
         <span className="hover:text-white cursor-pointer">Facebook</span>
         <span className="hover:text-white cursor-pointer">YouTube</span>
       </div>
 
-      {/* BOTTOM */}
+      
       <div className="text-center mt-8 text-gray-500 text-sm">
         {t.rights}
       </div>

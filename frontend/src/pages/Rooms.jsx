@@ -42,7 +42,6 @@ function Rooms() {
     <PageWrapper>
       <div className="bg-gray-100 min-h-screen py-16 px-6 md:px-20">
 
-        {/* TITLE */}
         <motion.h1
           className="text-3xl md:text-4xl font-bold text-center mb-12"
           initial="hidden"
@@ -52,7 +51,6 @@ function Rooms() {
           {t.roomsTitle}
         </motion.h1>
 
-        {/* GRID */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {rooms.map((room, i) => (
             <motion.div
@@ -63,7 +61,6 @@ function Rooms() {
               variants={fadeUp}
             >
 
-              {/* IMAGE */}
               <div className="relative overflow-hidden">
                 <img
                   src={room.img}
@@ -75,7 +72,6 @@ function Rooms() {
                 </div>
               </div>
 
-              {/* CONTENT */}
               <div className="p-5">
 
                 <h2 className="text-lg md:text-xl font-bold mb-2">

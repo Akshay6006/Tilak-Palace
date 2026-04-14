@@ -51,14 +51,12 @@ function Contact() {
     <PageWrapper>
       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white py-16 px-4 md:px-20">
 
-        {/* TITLE */}
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-12">
           {t.contactTitle}
         </h1>
 
         <div className="grid md:grid-cols-2 gap-10">
 
-          {/* FORM */}
           <form
             onSubmit={handleSubmit}
             className="bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-lg"
@@ -98,7 +96,6 @@ function Contact() {
             </button>
           </form>
 
-          {/* INFO */}
           <div className="bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-lg">
 
             <h2 className="text-xl md:text-2xl font-bold mb-6">
@@ -130,7 +127,6 @@ function Contact() {
           </div>
         </div>
 
-        {/* MAP */}
         <div className="mt-16">
           <iframe
             title="map"
